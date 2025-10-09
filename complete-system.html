@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maharashtra Prosecution Monitoring System</title>
+    
+    <style>
+        /* ===================================
+           Maharashtra Prosecution System CSS
+           Professional Blue-White Theme
+           =================================== */
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Loading Spinner */
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #2563eb;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Screen Management */
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Login Screen */
+        .login-container {
+            max-width: 450px;
+            margin: 100px auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: #2563eb;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand h2 {
+            color: #2563eb;
+            font-size: 20px;
+        }
+
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar-user span {
+            color: #555;
+            font-weight: 500;
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+            background: #f5f7fb;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 12px 25px;
+            color: #555;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-menu a:hover {
+            background: #f0f4ff;
+            color: #2563eb;
+        }
+
+        .sidebar-menu a.active {
+            background: #e8f0fe;
+            color: #2563eb;
+            border-left-color: #2563eb;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        .view h2 {
+            color: #1e40af;
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card p {
+            color: #2563eb;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        /* Recent Activity */
+        .recent-activity {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .recent-activity h3 {
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+
+        /* Form Styling */
+        .case-form, .user-form {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+        }
+
+        .form-section h3 {
+            color: #1e40af;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            margin-bottom: 6px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-success {
+            background: #059669;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #047857;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* Tables */
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .table-controls input {
+            padding: 10px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table thead {
+            background: #2563eb;
+            color: white;
+        }
+
+        .data-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Comments Display */
+        .comments-display {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .comment-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .comment-text {
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        /* Admin Tabs */
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: #6b7280;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            color: #2563eb;
+        }
+
+        .tab-btn.active {
+            color: #2563eb;
+            border-bottom-color: #2563eb;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Analytics */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+        }
+
+        .analytics-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .analytics-card h3 {
+            color: #1e40af;
+            margin-bottom: 20px;
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            color: #1e40af;
+            margin-bottom: 20px;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #9ca3af;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #374151;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-closed {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .sidebar-menu {
+                display: flex;
+                overflow-x: auto;
+            }
+
+            .sidebar-menu li {
+                flex-shrink: 0;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+
+            .login-container {
+                margin: 50px 20px;
+            }
+
+            .table-controls {
+                flex-direction: column;
+            }
+
+            .table-controls input {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="spinner-overlay" style="display:none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Maharashtra Prosecution Monitoring System</h1>
+                <p>Directorate of Prosecution, Maharashtra</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p class="forgot-password">Forgot Password? Contact Admin</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboardScreen" class="screen">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <h2>Maharashtra Prosecution System</h2>
+            </div>
+            <div class="navbar-user">
+                <span id="userName">Welcome</span>
+                <button id="changePasswordBtn" class="btn btn-secondary">Change Password</button>
+                <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+            </div>
+        </nav>
+
+        <div class="dashboard-container">
+            <aside class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="#" data-view="dashboard" class="active">Dashboard</a></li>
+                    <li><a href="#" data-view="addCase">Add New Case</a></li>
+                    <li><a href="#" data-view="myCases">My Cases</a></li>
+                    <li id="monitoringMenuItem" style="display:none;"><a href="#" data-view="monitoring">Monitoring</a></li>
+                    <li id="adminMenuItem" style="display:none;"><a href="#" data-view="admin">Admin Panel</a></li>
+                    <li><a href="#" data-view="analytics">Analytics</a></li>
+                </ul>
+            </aside>
+
+            <main class="main-content">
+                <!-- Dashboard View -->
+                <div id="dashboardView" class="view active">
+                    <h2>Dashboard Overview</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Total Cases</h3>
+                            <p id="statTotalCases">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Pending Cases</h3>
+                            <p id="statPendingCases">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Cases This Month</h3>
+                            <p id="statMonthCases">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Closed Cases</h3>
+                            <p id="statClosedCases">0</p>
+                        </div>
+                    </div>
+                    <div class="recent-activity">
+                        <h3>Recent Updates</h3>
+                        <div id="recentActivityList"></div>
+                    </div>
+                </div>
+
+                <!-- Add Case View -->
+                <div id="addCaseView" class="view">
+                    <h2>Add / Update Case</h2>
+                    <form id="caseForm" class="case-form">
+                        <div class="form-section">
+                            <h3>Case Search</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Search Existing Case No.</label>
+                                    <input type="text" id="searchCaseNo" placeholder="Enter case number">
+                                    <button type="button" id="searchCaseBtn" class="btn btn-secondary" style="margin-top: 10px;">Search</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Basic Information / मूलभूत माहिती</h3>
+                            <input type="hidden" id="caseId">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Case Type / प्रकरणाचा प्रकार *</label>
+                                    <select id="caseType" required>
+                                        <option value="">Select Case Type</option>
+                                        <option value="RCC">RCC (Regular Criminal Case)</option>
+                                        <option value="SCC">SCC (Summary Criminal Case)</option>
+                                        <option value="Sessions">Sessions Case</option>
+                                        <option value="Special">Special Case</option>
+                                        <option value="Appeal">Appeal</option>
+                                        <option value="Revision">Revision</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Case No. / प्रकरण क्रमांक *</label>
+                                    <input type="text" id="caseNo" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Party Name / पक्षकाराचे नाव *</label>
+                                    <input type="text" id="partyName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>FIR No. / गुन्हा क्रमांक *</label>
+                                    <input type="text" id="firNo" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Police Station / पोलीस ठाणे *</label>
+                                    <input type="text" id="policeStation" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>District / जिल्हा *</label>
+                                    <select id="district" required></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Legal Details / कायदेशीर तपशील</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Section Charged / आरोपीवर कलम *</label>
+                                    <input type="text" id="sectionCharged" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Section Framed by Court / न्यायालयाने ठरवलेले कलम *</label>
+                                    <input type="text" id="sectionFramed" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Date of Charge Framed / आरोप ठरविण्याची तारीख *</label>
+                                    <input type="date" id="chargeFramedDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Maximum Punishment (Years) / कमाल शिक्षा (वर्षे) *</label>
+                                    <input type="number" id="maxPunishment" min="0" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>NDPS Case / अंमली पदार्थ कायद्याचे प्रकरण आहे का? *</label>
+                                    <select id="isNDPS" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes / होय</option>
+                                        <option value="No">No / नाही</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Witness Details / साक्षीदार तपशील</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Total Witnesses (Chargesheet) / एकूण साक्षीदार *</label>
+                                    <input type="number" id="totalWitnesses" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Witnesses Examined / तपासलेले साक्षीदार *</label>
+                                    <input type="number" id="witnessesExamined" min="0" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Hostile Witness / साक्षीदार फितूर आहे का? *</label>
+                                    <select id="hostileWitness" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes / होय</option>
+                                        <option value="No">No / नाही</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Action Against Hostile / फितूर साक्षीदारावर कारवाई *</label>
+                                    <input type="text" id="hostileAction" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Case Progress / प्रकरणाची प्रगती</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Stage of Case / प्रकरणाची अवस्था *</label>
+                                    <select id="caseStage" required>
+                                        <option value="">Select Stage</option>
+                                        <option value="Evidence">Evidence</option>
+                                        <option value="Argument">Argument</option>
+                                        <option value="Judgment">Judgment</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Next Date / पुढील तारीख *</label>
+                                    <input type="date" id="nextDate" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group full-width">
+                                    <label>Other Details / इतर तपशील *</label>
+                                    <textarea id="otherDetails" rows="3" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="monitoringInfo" class="form-section" style="display:none;">
+                            <h3>Monitoring Comments / पर्यवेक्षण टिप्पण्या</h3>
+                            <div id="monitoringComments" class="comments-display"></div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Submit Case</button>
+                            <button type="button" id="resetFormBtn" class="btn btn-secondary">Reset Form</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- My Cases View -->
+                <div id="myCasesView" class="view">
+                    <h2>My Cases</h2>
+                    <div class="table-controls">
+                        <input type="text" id="myCasesSearch" placeholder="Search cases...">
+                        <button id="exportMyCasesBtn" class="btn btn-secondary">Export to Excel</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="myCasesTable" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Case No.</th>
+                                    <th>Party Name</th>
+                                    <th>Stage</th>
+                                    <th>Next Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Monitoring View -->
+                <div id="monitoringView" class="view">
+                    <h2>Monitoring Dashboard</h2>
+                    <div class="table-controls">
+                        <input type="text" id="monitoringSearch" placeholder="Search cases...">
+                        <button id="exportMonitoringBtn" class="btn btn-secondary">Export to Excel</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="monitoringTable" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Case No.</th>
+                                    <th>Officer</th>
+                                    <th>District</th>
+                                    <th>Punishment (Yrs)</th>
+                                    <th>Stage</th>
+                                    <th>Next Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Admin View -->
+                <div id="adminView" class="view">
+                    <h2>Admin Panel</h2>
+                    <div class="admin-tabs">
+                        <button class="tab-btn active" data-tab="users">Users</button>
+                        <button class="tab-btn" data-tab="addUser">Add User</button>
+                    </div>
+
+                    <div id="usersTab" class="tab-content active">
+                        <div class="table-controls">
+                            <input type="text" id="usersSearch" placeholder="Search users...">
+                        </div>
+                        <div class="table-container">
+                            <table id="usersTable" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>District</th>
+                                        <th>Region</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="addUserTab" class="tab-content">
+                        <form id="addUserForm" class="user-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Name *</label>
+                                    <input type="text" id="newUserName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email *</label>
+                                    <input type="email" id="newUserEmail" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Role *</label>
+                                    <select id="newUserRole" required>
+                                        <option value="">Select Role</option>
+                                        <option value="APP">Assistant Public Prosecutor</option>
+                                        <option value="Addl. PP">Additional Public Prosecutor</option>
+                                        <option value="AD">Assistant Director</option>
+                                        <option value="DD">Deputy Director</option>
+                                        <option value="DOP">Director</option>
+                                        <option value="Admin">Admin</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Password *</label>
+                                    <input type="password" id="newUserPassword" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>District *</label>
+                                    <select id="newUserDistrict" required></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Region *</label>
+                                    <select id="newUserRegion" required>
+                                        <option value="">Select Region</option>
+                                        <option value="Kokan">Kokan</option>
+                                        <option value="Nashik">Nashik</option>
+                                        <option value="Pune">Pune</option>
+                                        <option value="Chhatrapati Sambhaji Nagar">Chhatrapati Sambhaji Nagar</option>
+                                        <option value="Amravati">Amravati</option>
+                                        <option value="Nagpur">Nagpur</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add User</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Analytics View -->
+                <div id="analyticsView" class="view">
+                    <h2>Analytics & Reports</h2>
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <h3>Cases by Stage</h3>
+                            <div id="stageChart"></div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Cases by District</h3>
+                            <div id="districtChart"></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="commentModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add Comment</h2>
+            <form id="commentForm">
+                <input type="hidden" id="commentCaseId">
+                <div class="form-group">
+                    <label>Comment *</label>
+                    <textarea id="commentText" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Comment</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Change Password</h2>
+            <form id="changePasswordForm">
+                <div class="form-group">
+                    <label>Current Password *</label>
+                    <input type="password" id="currentPassword" required>
+                </div>
+                <div class="form-group">
+                    <label>New Password *</label>
+                    <input type="password" id="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm New Password *</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Change Password</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ===========================================
+        // MAHARASHTRA PROSECUTION SYSTEM - JAVASCRIPT
+        // ===========================================
+
+        // Global Variables
+        let currentUser = null;
+        let allCases = [];
+        let allUsers = [];
+
+        // ⚠️ CRITICAL: UPDATE THIS WITH YOUR APPS SCRIPT WEB APP URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyswmgAG3RMrG-hdOH0r24eaYYHtlHmuIfk5M0WAgPgO22ysm0EW6hWXE2XuPkf7NDEUQ/exec';
+
+        // Utility Functions
+        function showSpinner() {
+            document.getElementById('loadingSpinner').style.display = 'flex';
+        }
+
+        function hideSpinner() {
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }
+
+        function showAlert(message) {
+            alert(message);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN');
+        }
+
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function switchView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            
+            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+            document.querySelector(`[data-view="${viewId.replace('View', '')}"]`)?.classList.add('active');
+        }
+
+        async function callAPI(action, data = {}) {
+            try {
+                showSpinner();
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, ...data })
+                });
+                const result = await response.json();
+                hideSpinner();
+                
+                if (result.success === false) {
+                    throw new Error(result.message || 'Operation failed');
+                }
+                
+                return result;
+            } catch (error) {
+                hideSpinner();
+                console.error('API Error:', error);
+                showAlert(error.message || 'An error occurred. Please try again.');
+                throw error;
+            }
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            setupEventListeners();
+            populateDistrictDropdowns();
+        });
+
+        function initializeApp() {
+            const savedUser = sessionStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showDashboard();
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+            document.getElementById('changePasswordBtn').addEventListener('click', () => {
+                document.getElementById('changePasswordModal').classList.add('active');
+            });
+            document.getElementById('changePasswordForm').addEventListener('submit', handleChangePassword);
+            
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const view = this.getAttribute('data-view');
+                    switchView(view + 'View');
+                    
+                    if (view === 'myCases') loadMyCases();
+                    if (view === 'monitoring') loadMonitoringCases();
+                    if (view === 'admin') loadAdminData();
+                    if (view === 'analytics') loadAnalytics();
+                });
+            });
+            
+            document.getElementById('searchCaseBtn').addEventListener('click', searchExistingCase);
+            document.getElementById('caseForm').addEventListener('submit', handleCaseSubmit);
+            document.getElementById('resetFormBtn').addEventListener('click', resetCaseForm);
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tab = this.getAttribute('data-tab');
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById(tab + 'Tab').classList.add('active');
+                });
+            });
+            
+            document.getElementById('addUserForm').addEventListener('submit', handleAddUser);
+            document.getElementById('commentForm').addEventListener('submit', handleCommentSubmit);
+            
+            document.querySelectorAll('.close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', function() {
+                    this.closest('.modal').classList.remove('active');
+                });
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    e.target.classList.remove('active');
+                }
+            });
+            
+            document.getElementById('exportMyCasesBtn')?.addEventListener('click', () => exportToExcel('myCases'));
+            document.getElementById('exportMonitoringBtn')?.addEventListener('click', () => exportToExcel('monitoring'));
+            
+            document.getElementById('myCasesSearch')?.addEventListener('input', function() {
+                filterTable('myCasesTable', this.value);
+            });
+            
+            document.getElementById('monitoringSearch')?.addEventListener('input', function() {
+                filterTable('monitoringTable', this.value);
+            });
+            
+            document.getElementById('usersSearch')?.addEventListener('input', function() {
+                filterTable('usersTable', this.value);
+            });
+        }
+
+        // Authentication
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const result = await callAPI('login', { email, password });
+                
+                if (result.success) {
+                    currentUser = result.user;
+                    sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    showDashboard();
+                    loadDashboardData();
+                } else {
+                    showAlert('Invalid email or password');
+                }
+            } catch (error) {
+                showAlert('Login failed. Please try again.');
+            }
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            sessionStorage.removeItem('currentUser');
+            switchScreen('loginScreen');
+            document.getElementById('loginForm').reset();
+        }
+
+        async function handleChangePassword(e) {
+            e.preventDefault();
+            
+            const currentPass = document.getElementById('currentPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+            
+            if (newPass !== confirmPass) {
+                showAlert('New passwords do not match');
+                return;
+            }
+            
+            try {
+                const result = await callAPI('changePassword', {
+                    userId: currentUser.userId,
+                    currentPassword: currentPass,
+                    newPassword: newPass
+                });
+                
+                if (result.success) {
+                    showAlert('Password changed successfully');
+                    document.getElementById('changePasswordModal').classList.remove('active');
+                    document.getElementById('changePasswordForm').reset();
+                }
+            } catch (error) {
+                showAlert('Failed to change password');
+            }
+        }
+
+        // Dashboard
+        function showDashboard() {
+            switchScreen('dashboardScreen');
+            document.getElementById('userName').textContent = `Welcome, ${currentUser.name}`;
+            
+            if (['AD', 'DD', 'DOP'].includes(currentUser.role)) {
+                document.getElementById('monitoringMenuItem').style.display = 'block';
+            }
+            
+            if (currentUser.role === 'Admin') {
+                document.getElementById('adminMenuItem').style.display = 'block';
+            }
+            
+            loadDashboardData();
+        }
+
+        async function loadDashboardData() {
+            try {
+                const result = await callAPI('getDashboardStats', { userId: currentUser.userId });
+                
+                if (result.success) {
+                    document.getElementById('statTotalCases').textContent = result.stats.totalCases || 0;
+                    document.getElementById('statPendingCases').textContent = result.stats.pendingCases || 0;
+                    document.getElementById('statMonthCases').textContent = result.stats.monthCases || 0;
+                    document.getElementById('statClosedCases').textContent = result.stats.closedCases || 0;
+                    
+                    displayRecentActivity(result.recentActivity || []);
+                }
+            } catch (error) {
+                console.error('Failed to load dashboard data:', error);
+            }
+        }
+
+        function displayRecentActivity(activities) {
+            const container = document.getElementById('recentActivityList');
+            
+            if (!activities.length) {
+                container.innerHTML = '<p style="color: #6b7280;">No recent activity</p>';
+                return;
+            }
+            
+            container.innerHTML = activities.map(activity => `
+                <div style="padding: 12px; border-bottom: 1px solid #e5e7eb;">
+                    <strong>${activity.caseNo}</strong> - ${activity.action}
+                    <br>
+                    <small style="color: #6b7280;">${formatDate(activity.date)}</small>
+                </div>
+            `).join('');
+        }
+
+        // Case Management
+        async function searchExistingCase() {
+            const caseNo = document.getElementById('searchCaseNo').value.trim();
+            
+            if (!caseNo) {
+                showAlert('Please enter a case number');
+                return;
+            }
+            
+            try {
+                const result = await callAPI('getCaseByNumber', { 
+                    caseNo, 
+                    userId: currentUser.userId 
+                });
+                
+                if (result.success && result.case) {
+                    populateCaseForm(result.case);
+                    showAlert('Case found! You can now update it.');
+                } else {
+                    showAlert('Case not found');
+                }
+            } catch (error) {
+                showAlert('Error searching case');
+            }
+        }
+
+        function populateCaseForm(caseData) {
+            document.getElementById('caseId').value = caseData.caseId || '';
+            document.getElementById('caseType').value = caseData.caseType || '';
+            document.getElementById('caseNo').value = caseData.caseNo || '';
+            document.getElementById('partyName').value = caseData.partyName || '';
+            document.getElementById('firNo').value = caseData.firNo || '';
+            document.getElementById('policeStation').value = caseData.policeStation || '';
+            document.getElementById('district').value = caseData.district || '';
+            document.getElementById('sectionCharged').value = caseData.sectionCharged || '';
+            document.getElementById('sectionFramed').value = caseData.sectionFramed || '';
+            document.getElementById('chargeFramedDate').value = caseData.chargeFramedDate || '';
+            document.getElementById('maxPunishment').value = caseData.maxPunishment || '';
+            document.getElementById('isNDPS').value = caseData.isNDPS || '';
+            document.getElementById('totalWitnesses').value = caseData.totalWitnesses || '';
+            document.getElementById('witnessesExamined').value = caseData.witnessesExamined || '';
+            document.getElementById('hostileWitness').value = caseData.hostileWitness || '';
+            document.getElementById('hostileAction').value = caseData.hostileAction || '';
+            document.getElementById('caseStage').value = caseData.stage || '';
+            document.getElementById('nextDate').value = caseData.nextDate || '';
+            document.getElementById('otherDetails').value = caseData.otherDetails || '';
+            
+            if (caseData.caseId) {
+                loadCaseComments(caseData.caseId);
+            }
+        }
+
+        async function loadCaseComments(caseId) {
+            try {
+                const result = await callAPI('getCaseComments', { caseId });
+                
+                if (result.success && result.comments.length) {
+                    document.getElementById('monitoringInfo').style.display = 'block';
+                    displayComments(result.comments);
+                }
+            } catch (error) {
+                console.error('Failed to load comments:', error);
+            }
+        }
+
+        function displayComments(comments) {
+            const container = document.getElementById('monitoringComments');
+            
+            container.innerHTML = comments.map(comment => `
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <strong>${comment.commentBy}</strong>
+                        <span>${formatDate(comment.date)}</span>
+                    </div>
+                    <div class="comment-text">${comment.text}</div>
+                    ${comment.compliance ? `
+                        <div style="margin-top: 10px; padding: 10px; background: #f0f9ff;">
+                            <strong>Compliance:</strong> ${comment.compliance}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        async function handleCaseSubmit(e) {
+            e.preventDefault();
+            
+            const formData = {
+                caseId: document.getElementById('caseId').value,
+                caseType: document.getElementById('caseType').value,
+                caseNo: document.getElementById('caseNo').value,
+                partyName: document.getElementById('partyName').value,
+                firNo: document.getElementById('firNo').value,
+                policeStation: document.getElementById('policeStation').value,
+                district: document.getElementById('district').value,
+                sectionCharged: document.getElementById('sectionCharged').value,
+                sectionFramed: document.getElementById('sectionFramed').value,
+                chargeFramedDate: document.getElementById('chargeFramedDate').value,
+                maxPunishment: document.getElementById('maxPunishment').value,
+                isNDPS: document.getElementById('isNDPS').value,
+                totalWitnesses: document.getElementById('totalWitnesses').value,
+                witnessesExamined: document.getElementById('witnessesExamined').value,
+                hostileWitness: document.getElementById('hostileWitness').value,
+                hostileAction: document.getElementById('hostileAction').value,
+                stage: document.getElementById('caseStage').value,
+                nextDate: document.getElementById('nextDate').value,
+                otherDetails: document.getElementById('otherDetails').value,
+                userId: currentUser.userId,
+                userRole: currentUser.role,
+                region: currentUser.region
+            };
+            
+            try {
+                const action = formData.caseId ? 'updateCase' : 'addCase';
+                const result = await callAPI(action, formData);
+                
+                if (result.success) {
+                    showAlert(formData.caseId ? 'Case updated successfully!' : 'Case added successfully!');
+                    resetCaseForm();
+                    loadMyCases();
+                }
+            } catch (error) {
+                showAlert('Failed to save case');
+            }
+        }
+
+        function resetCaseForm() {
+            document.getElementById('caseForm').reset();
+            document.getElementById('caseId').value = '';
+            document.getElementById('monitoringInfo').style.display = 'none';
+        }
+
+        // My Cases
+        async function loadMyCases() {
+            try {
+                const result = await callAPI('getMyCases', { userId: currentUser.userId });
+                
+                if (result.success) {
+                    allCases = result.cases || [];
+                    displayMyCases(allCases);
+                }
+            } catch (error) {
+                console.error('Failed to load cases:', error);
+            }
+        }
+
+        function displayMyCases(cases) {
+            const tbody = document.querySelector('#myCasesTable tbody');
+            
+            if (!cases.length) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No cases found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = cases.map(c => `
+                <tr>
+                    <td>${c.caseNo}</td>
+                    <td>${c.partyName}</td>
+                    <td>${c.stage}</td>
+                    <td>${formatDate(c.nextDate)}</td>
+                    <td><span class="status-badge status-${c.status ? c.status.toLowerCase() : 'pending'}">${c.status || 'Pending'}</span></td>
+                    <td>
+                        <button class="btn btn-small btn-primary" onclick="editCase('${c.caseId}')">Edit</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function editCase(caseId) {
+            const caseData = allCases.find(c => c.caseId === caseId);
+            if (caseData) {
+                populateCaseForm(caseData);
+                switchView('addCaseView');
+            }
+        }
+
+        // Monitoring
+        async function loadMonitoringCases() {
+            try {
+                const result = await callAPI('getMonitoringCases', { 
+                    userId: currentUser.userId,
+                    role: currentUser.role,
+                    region: currentUser.region
+                });
+                
+                if (result.success) {
+                    displayMonitoringCases(result.cases || []);
+                }
+            } catch (error) {
+                console.error('Failed to load monitoring cases:', error);
+            }
+        }
+
+        function displayMonitoringCases(cases) {
+            const tbody = document.querySelector('#monitoringTable tbody');
+            
+            if (!cases.length) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No cases to monitor</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = cases.map(c => `
+                <tr>
+                    <td>${c.caseNo}</td>
+                    <td>${c.officerName}</td>
+                    <td>${c.district}</td>
+                    <td>${c.punishmentYears || c.maxPunishment}</td>
+                    <td>${c.stage}</td>
+                    <td>${formatDate(c.nextDate)}</td>
+                    <td>
+                        <button class="btn btn-small btn-primary" onclick="addComment('${c.caseId}')">Comment</button>
+                        ${c.status !== 'Closed' ? `<button class="btn btn-small btn-success" onclick="closeCase('${c.caseId}')">Close</button>` : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function addComment(caseId) {
+            document.getElementById('commentCaseId').value = caseId;
+            document.getElementById('commentModal').classList.add('active');
+        }
+
+        async function handleCommentSubmit(e) {
+            e.preventDefault();
+            
+            const caseId = document.getElementById('commentCaseId').value;
+            const commentText = document.getElementById('commentText').value;
+            
+            try {
+                const result = await callAPI('addComment', {
+                    caseId,
+                    commentBy: currentUser.name,
+                    commentByRole: currentUser.role,
+                    text: commentText
+                });
+                
+                if (result.success) {
+                    showAlert('Comment added successfully');
+                    document.getElementById('commentModal').classList.remove('active');
+                    document.getElementById('commentForm').reset();
+                    loadMonitoringCases();
+                }
+            } catch (error) {
+                showAlert('Failed to add comment');
+            }
+        }
+
+        async function closeCase(caseId) {
+            if (!confirm('Are you sure you want to close this case after compliance?')) {
+                return;
+            }
+            
+            try {
+                const result = await callAPI('closeCase', { caseId });
+                
+                if (result.success) {
+                    showAlert('Case closed successfully');
+                    loadMonitoringCases();
+                }
+            } catch (error) {
+                showAlert('Failed to close case');
+            }
+        }
+
+        // Admin Functions
+        async function loadAdminData() {
+            try {
+                const result = await callAPI('getAllUsers');
+                
+                if (result.success) {
+                    allUsers = result.users || [];
+                    displayUsers(allUsers);
+                }
+            } catch (error) {
+                console.error('Failed to load users:', error);
+            }
+        }
+
+        function displayUsers(users) {
+            const tbody = document.querySelector('#usersTable tbody');
+            
+            if (!users.length) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No users found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = users.map(u => `
+                <tr>
+                    <td>${u.name}</td>
+                    <td>${u.email}</td>
+                    <td>${u.role}</td>
+                    <td>${u.district}</td>
+                    <td>${u.region}</td>
+                    <td>
+                        <button class="btn btn-small btn-secondary" onclick="showAlert('Edit user feature')">Edit</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function handleAddUser(e) {
+            e.preventDefault();
+            
+            const userData = {
+                name: document.getElementById('newUserName').value,
+                email: document.getElementById('newUserEmail').value,
+                role: document.getElementById('newUserRole').value,
+                password: document.getElementById('newUserPassword').value,
+                district: document.getElementById('newUserDistrict').value,
+                region: document.getElementById('newUserRegion').value
+            };
+            
+            try {
+                const result = await callAPI('addUser', userData);
+                
+                if (result.success) {
+                    showAlert('User added successfully');
+                    document.getElementById('addUserForm').reset();
+                    loadAdminData();
+                }
+            } catch (error) {
+                showAlert('Failed to add user');
+            }
+        }
+
+        // Analytics
+        async function loadAnalytics() {
+            try {
+                const result = await callAPI('getAnalytics', { 
+                    userId: currentUser.userId,
+                    role: currentUser.role 
+                });
+                
+                if (result.success) {
+                    displayAnalytics(result.analytics);
+                }
+            } catch (error) {
+                console.error('Failed to load analytics:', error);
+            }
+        }
+
+        function displayAnalytics(analytics) {
+            document.getElementById('stageChart').innerHTML = Object.entries(analytics.byStage || {})
+                .map(([stage, count]) => `<div style="padding: 8px;">${stage}: ${count}</div>`)
+                .join('');
+            
+            document.getElementById('districtChart').innerHTML = Object.entries(analytics.byDistrict || {})
+                .map(([district, count]) => `<div style="padding: 8px;">${district}: ${count}</div>`)
+                .join('');
+        }
+
+        // Helper Functions
+        function populateDistrictDropdowns() {
+            const districts = {
+                'Kokan': ['Greater Mumbai', 'Thane', 'Palghar', 'Raigad', 'Ratnagiri', 'Sindhudurg'],
+                'Nashik': ['Nashik', 'Ahilyanagar', 'Jalgaon', 'Dhule', 'Nandurbar'],
+                'Pune': ['Pune', 'Solapur', 'Kolhapur', 'Satara', 'Sangli'],
+                'Chhatrapati Sambhaji Nagar': ['Chhatrapati Sambhaji Nagar', 'Jalna', 'Beed', 'Parbhani', 'Hingoli', 'Nanded'],
+                'Amravati': ['Amravati', 'Akola', 'Buldhana', 'Washim', 'Yavatmal'],
+                'Nagpur': ['Nagpur', 'Bhandara', 'Wardha', 'Gondia', 'Chandrapur', 'Gadchiroli']
+            };
+            
+            const allDistricts = Object.values(districts).flat().sort();
+            
+            const districtSelects = document.querySelectorAll('#district, #newUserDistrict');
+            districtSelects.forEach(select => {
+                select.innerHTML = '<option value="">Select District</option>' +
+                    allDistricts.map(d => `<option value="${d}">${d}</option>`).join('');
+            });
+        }
+
+        function filterTable(tableId, searchTerm) {
+            const table = document.getElementById(tableId);
+            const rows = table.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm.toLowerCase()) ? '' : 'none';
+            });
+        }
+
+        function exportToExcel(type) {
+            let data = [];
+            
+            if (type === 'myCases') {
+                data = allCases;
+            }
+            
+            if (!data.length) {
+                showAlert('No data to export');
+                return;
+            }
+            
+            const headers = Object.keys(data[0]).join(',');
+            const rows = data.map(obj => Object.values(obj).join(',')).join('\n');
+            const csv = headers + '\n' + rows;
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${type}_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            
+            showAlert('Export successful!');
+        }
+    </script>
+</body>
+</html>
