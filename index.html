@@ -6,12 +6,6 @@
     <title>Maharashtra Prosecution Monitoring System</title>
     
     <style>
-        /* ===================================
-           Maharashtra Prosecution System CSS
-           Professional Blue-White Theme
-           =================================== */
-
-        /* Reset & Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -25,7 +19,6 @@
             color: #333;
         }
 
-        /* Loading Spinner */
         .spinner-overlay {
             position: fixed;
             top: 0;
@@ -53,7 +46,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Screen Management */
         .screen {
             display: none;
         }
@@ -62,7 +54,6 @@
             display: block;
         }
 
-        /* Login Screen */
         .login-container {
             max-width: 450px;
             margin: 100px auto;
@@ -120,7 +111,6 @@
             font-size: 13px;
         }
 
-        /* Navigation Bar */
         .navbar {
             background: white;
             padding: 15px 30px;
@@ -146,14 +136,12 @@
             font-weight: 500;
         }
 
-        /* Dashboard Container */
         .dashboard-container {
             display: flex;
             min-height: calc(100vh - 70px);
             background: #f5f7fb;
         }
 
-        /* Sidebar */
         .sidebar {
             width: 260px;
             background: white;
@@ -190,7 +178,6 @@
             font-weight: 600;
         }
 
-        /* Main Content */
         .main-content {
             flex: 1;
             padding: 30px;
@@ -211,7 +198,6 @@
             font-size: 28px;
         }
 
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -225,12 +211,18 @@
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s;
+            cursor: pointer;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
         }
+
+        .stat-card.total { border-left: 4px solid #10b981; }
+        .stat-card.pending { border-left: 4px solid #f59e0b; }
+        .stat-card.month { border-left: 4px solid #3b82f6; }
+        .stat-card.closed { border-left: 4px solid #6b7280; }
 
         .stat-card h3 {
             color: #666;
@@ -241,12 +233,30 @@
         }
 
         .stat-card p {
-            color: #2563eb;
             font-size: 32px;
             font-weight: bold;
         }
 
-        /* Recent Activity */
+        .stat-card.total p { color: #10b981; }
+        .stat-card.pending p { color: #f59e0b; }
+        .stat-card.month p { color: #3b82f6; }
+        .stat-card.closed p { color: #6b7280; }
+
+        .dashboard-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .dashboard-filters select,
+        .dashboard-filters input {
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
         .recent-activity {
             background: white;
             padding: 25px;
@@ -259,7 +269,6 @@
             margin-bottom: 15px;
         }
 
-        /* Form Styling */
         .case-form, .user-form {
             background: white;
             padding: 30px;
@@ -330,7 +339,6 @@
             margin-top: 30px;
         }
 
-        /* Buttons */
         .btn {
             padding: 10px 20px;
             border: none;
@@ -375,7 +383,6 @@
             font-size: 12px;
         }
 
-        /* Tables */
         .table-controls {
             display: flex;
             justify-content: space-between;
@@ -433,7 +440,6 @@
             border-bottom: none;
         }
 
-        /* Comments Display */
         .comments-display {
             background: #f9fafb;
             padding: 15px;
@@ -441,12 +447,19 @@
             border-left: 4px solid #2563eb;
         }
 
-        .comment-item {
+        .comment-thread {
             background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-item {
             padding: 12px;
             margin-bottom: 10px;
-            border-radius: 6px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-left: 3px solid #2563eb;
+            background: #eff6ff;
         }
 
         .comment-header {
@@ -462,7 +475,14 @@
             line-height: 1.6;
         }
 
-        /* Admin Tabs */
+        .reply-item {
+            padding: 12px;
+            margin-top: 10px;
+            margin-left: 20px;
+            border-left: 3px solid #10b981;
+            background: #f0fdf4;
+        }
+
         .admin-tabs {
             display: flex;
             gap: 10px;
@@ -498,7 +518,6 @@
             display: block;
         }
 
-        /* Analytics */
         .analytics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -517,7 +536,6 @@
             margin-bottom: 20px;
         }
 
-        /* Modals */
         .modal {
             display: none;
             position: fixed;
@@ -539,7 +557,7 @@
             background: white;
             padding: 30px;
             border-radius: 12px;
-            max-width: 600px;
+            max-width: 900px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
@@ -567,7 +585,6 @@
             color: #374151;
         }
 
-        /* Status Badges */
         .status-badge {
             padding: 4px 10px;
             border-radius: 12px;
@@ -585,7 +602,43 @@
             color: #374151;
         }
 
-        /* Responsive Design */
+        .status-replied {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .case-detail-view {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .case-detail-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .case-detail-label {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .case-detail-value {
+            color: #6b7280;
+        }
+
+        .notification-badge {
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+
         @media (max-width: 1024px) {
             .dashboard-container {
                 flex-direction: column;
@@ -690,20 +743,28 @@
                 <!-- Dashboard View -->
                 <div id="dashboardView" class="view active">
                     <h2>Dashboard Overview</h2>
+                    
+                    <div class="dashboard-filters">
+                        <select id="yearFilter">
+                            <option value="all">All Years</option>
+                        </select>
+                        <input type="text" id="dashboardSearch" placeholder="Search by case name or number...">
+                    </div>
+
                     <div class="stats-grid">
-                        <div class="stat-card">
+                        <div class="stat-card total" onclick="showCasesByStatus('all')">
                             <h3>Total Cases</h3>
                             <p id="statTotalCases">0</p>
                         </div>
-                        <div class="stat-card">
+                        <div class="stat-card pending" onclick="showCasesByStatus('Pending')">
                             <h3>Pending Cases</h3>
                             <p id="statPendingCases">0</p>
                         </div>
-                        <div class="stat-card">
+                        <div class="stat-card month">
                             <h3>Cases This Month</h3>
                             <p id="statMonthCases">0</p>
                         </div>
-                        <div class="stat-card">
+                        <div class="stat-card closed" onclick="showCasesByStatus('Closed')">
                             <h3>Closed Cases</h3>
                             <p id="statClosedCases">0</p>
                         </div>
@@ -714,7 +775,7 @@
                     </div>
                 </div>
 
-                <!-- Add Case View -->
+                <!-- Add Case View (keeping existing form) -->
                 <div id="addCaseView" class="view">
                     <h2>Add / Update Case</h2>
                     <form id="caseForm" class="case-form">
@@ -891,6 +952,7 @@
                             <thead>
                                 <tr>
                                     <th>Case No.</th>
+                                    <th>Year</th>
                                     <th>Party Name</th>
                                     <th>Stage</th>
                                     <th>Next Date</th>
@@ -915,11 +977,12 @@
                             <thead>
                                 <tr>
                                     <th>Case No.</th>
+                                    <th>Year</th>
+                                    <th>Party Name</th>
                                     <th>Officer</th>
                                     <th>District</th>
                                     <th>Punishment (Yrs)</th>
                                     <th>Stage</th>
-                                    <th>Next Date</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -988,9 +1051,9 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="form-group">
-                                    <label>District *</label>
-                                    <select id="newUserDistrict" required></select>
+                                <div class="form-group" id="newUserDistrictGroup">
+                                    <label>District</label>
+                                    <select id="newUserDistrict"></select>
                                 </div>
                                 <div class="form-group">
                                     <label>Region *</label>
@@ -1029,24 +1092,66 @@
     </div>
 
     <!-- Modals -->
-    <div id="commentModal" class="modal">
+    <!-- View Case with Comment Modal -->
+    <div id="viewCaseModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Add Comment</h2>
-            <form id="commentForm">
-                <input type="hidden" id="commentCaseId">
-                <div class="form-group">
-                    <label>Comment *</label>
-                    <textarea id="commentText" rows="4" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit Comment</button>
-            </form>
+            <span class="close" onclick="closeViewCaseModal()">&times;</span>
+            <h2>Case Details & Comments</h2>
+            
+            <div id="caseDetailsView" class="case-detail-view"></div>
+            
+            <div class="form-section">
+                <h3>Comment Thread</h3>
+                <div id="caseCommentsThread"></div>
+                
+                <form id="addCommentForm" style="margin-top: 20px;">
+                    <input type="hidden" id="modalCaseId">
+                    <div class="form-group">
+                        <label>Add Comment / Reply *</label>
+                        <textarea id="modalCommentText" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Comment</button>
+                </form>
+            </div>
         </div>
     </div>
 
+    <!-- Pending Comments Notification Modal -->
+    <div id="pendingCommentsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePendingCommentsModal()">&times;</span>
+            <h2>⚠️ Pending Comments Requiring Your Attention</h2>
+            <div id="pendingCommentsList"></div>
+        </div>
+    </div>
+
+    <!-- Cases by Status Modal -->
+    <div id="casesByStatusModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCasesByStatusModal()">&times;</span>
+            <h2 id="casesByStatusTitle">Cases</h2>
+            <div class="table-container">
+                <table id="casesByStatusTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Case No.</th>
+                            <th>Year</th>
+                            <th>Party Name</th>
+                            <th>Stage</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
     <div id="changePasswordModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeChangePasswordModal()">&times;</span>
             <h2>Change Password</h2>
             <form id="changePasswordForm">
                 <div class="form-group">
@@ -1067,17 +1172,14 @@
     </div>
 
     <script>
-        // ===========================================
-        // MAHARASHTRA PROSECUTION SYSTEM - JAVASCRIPT
-        // ===========================================
-
         // Global Variables
         let currentUser = null;
         let allCases = [];
         let allUsers = [];
+        let currentReplyCommentId = null;
 
-        // ⚠️ CRITICAL: REPLACE THIS WITH YOUR NEW APPS SCRIPT URL
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxszhbEAoR4tK9Bl4eW26tqueYU4eyhJgHS7e6otDVDUHwPecgaD5nofsjYGE16zvQjdA/exec';
+        // ✅ YOUR APPS SCRIPT URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3n3CkkrgZu0EaG3tYsEUvIG7leb6nibDtfYSAF51LnqK6R3_cKFkwCTRrkeC3tjfupg/exec';
 
         // Utility Functions
         function showSpinner() {
@@ -1111,7 +1213,6 @@
             document.querySelector(`[data-view="${viewId.replace('View', '')}"]`)?.classList.add('active');
         }
 
-        // ✅ FIXED: This function now works with Google Apps Script
         async function callAPI(action, data = {}) {
             try {
                 showSpinner();
@@ -1140,6 +1241,7 @@
             initializeApp();
             setupEventListeners();
             populateDistrictDropdowns();
+            populateYearFilter();
         });
 
         function initializeApp() {
@@ -1164,6 +1266,7 @@
                     const view = this.getAttribute('data-view');
                     switchView(view + 'View');
                     
+                    if (view === 'dashboard') loadDashboardData();
                     if (view === 'myCases') loadMyCases();
                     if (view === 'monitoring') loadMonitoringCases();
                     if (view === 'admin') loadAdminData();
@@ -1186,17 +1289,18 @@
             });
             
             document.getElementById('addUserForm').addEventListener('submit', handleAddUser);
-            document.getElementById('commentForm').addEventListener('submit', handleCommentSubmit);
+            document.getElementById('addCommentForm').addEventListener('submit', handleAddComment);
             
-            document.querySelectorAll('.close').forEach(closeBtn => {
-                closeBtn.addEventListener('click', function() {
-                    this.closest('.modal').classList.remove('active');
-                });
-            });
-            
-            window.addEventListener('click', function(e) {
-                if (e.target.classList.contains('modal')) {
-                    e.target.classList.remove('active');
+            document.getElementById('newUserRole').addEventListener('change', function() {
+                const districtGroup = document.getElementById('newUserDistrictGroup');
+                const districtField = document.getElementById('newUserDistrict');
+                
+                if (this.value === 'DOP' || this.value === 'DD') {
+                    districtField.removeAttribute('required');
+                    districtGroup.style.opacity = '0.5';
+                } else {
+                    districtField.setAttribute('required', 'required');
+                    districtGroup.style.opacity = '1';
                 }
             });
             
@@ -1214,6 +1318,9 @@
             document.getElementById('usersSearch')?.addEventListener('input', function() {
                 filterTable('usersTable', this.value);
             });
+
+            document.getElementById('yearFilter')?.addEventListener('change', filterDashboardCases);
+            document.getElementById('dashboardSearch')?.addEventListener('input', filterDashboardCases);
         }
 
         // Authentication
@@ -1231,6 +1338,11 @@
                     sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
                     showDashboard();
                     loadDashboardData();
+                    
+                    // Check for pending comments (only for APP and Additional PP)
+                    if (['APP', 'Addl. PP'].includes(currentUser.role)) {
+                        checkPendingComments();
+                    }
                 } else {
                     showAlert('Invalid email or password');
                 }
@@ -1267,7 +1379,7 @@
                 
                 if (result.success) {
                     showAlert('Password changed successfully');
-                    document.getElementById('changePasswordModal').classList.remove('active');
+                    closeChangePasswordModal();
                     document.getElementById('changePasswordForm').reset();
                 }
             } catch (error) {
@@ -1293,7 +1405,11 @@
 
         async function loadDashboardData() {
             try {
-                const result = await callAPI('getDashboardStats', { userId: currentUser.userId });
+                const result = await callAPI('getDashboardStats', { 
+                    userId: currentUser.userId,
+                    role: currentUser.role,
+                    region: currentUser.region
+                });
                 
                 if (result.success) {
                     document.getElementById('statTotalCases').textContent = result.stats.totalCases || 0;
@@ -1325,7 +1441,277 @@
             `).join('');
         }
 
-        // Case Management
+        function populateYearFilter() {
+            const select = document.getElementById('yearFilter');
+            const currentYear = new Date().getFullYear();
+            
+            for (let year = currentYear; year >= 2020; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                select.appendChild(option);
+            }
+        }
+
+        function filterDashboardCases() {
+            // This would filter the dashboard based on year and search
+            // Implementation depends on how you want to display filtered cases
+        }
+
+        // Pending Comments Check
+        async function checkPendingComments() {
+            try {
+                const result = await callAPI('getPendingComments', { userId: currentUser.userId });
+                
+                if (result.success && result.pendingComments.length > 0) {
+                    showPendingCommentsModal(result.pendingComments);
+                }
+            } catch (error) {
+                console.error('Failed to check pending comments:', error);
+            }
+        }
+
+        function showPendingCommentsModal(pendingComments) {
+            const modal = document.getElementById('pendingCommentsModal');
+            const list = document.getElementById('pendingCommentsList');
+            
+            list.innerHTML = pendingComments.map(comment => `
+                <div class="comment-thread" style="margin-bottom: 15px;">
+                    <h4 style="color: #1e40af;">Case: ${comment.caseNo} - ${comment.partyName}</h4>
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <strong>${comment.commentBy}</strong>
+                            <span>${formatDate(comment.commentDate)}</span>
+                        </div>
+                        <div class="comment-text">${comment.commentText}</div>
+                    </div>
+                    <button class="btn btn-primary btn-small" onclick="openCaseWithComment('${comment.caseId}')" style="margin-top: 10px;">
+                        View Case & Reply
+                    </button>
+                </div>
+            `).join('');
+            
+            modal.classList.add('active');
+        }
+
+        function closePendingCommentsModal() {
+            document.getElementById('pendingCommentsModal').classList.remove('active');
+        }
+
+        async function openCaseWithComment(caseId) {
+            closePendingCommentsModal();
+            await viewCaseWithComments(caseId);
+        }
+
+        // View Case with Comments (for monitoring)
+        async function viewCaseWithComments(caseId) {
+            try {
+                const caseResult = await callAPI('getCaseById', { caseId });
+                const commentsResult = await callAPI('getCaseComments', { caseId });
+                
+                if (caseResult.success) {
+                    displayCaseDetails(caseResult.case);
+                    displayCommentThread(commentsResult.comments || []);
+                    document.getElementById('modalCaseId').value = caseId;
+                    document.getElementById('viewCaseModal').classList.add('active');
+                }
+            } catch (error) {
+                showAlert('Failed to load case details');
+            }
+        }
+
+        function displayCaseDetails(caseData) {
+            const container = document.getElementById('caseDetailsView');
+            
+            container.innerHTML = `
+                <div class="case-detail-row">
+                    <div class="case-detail-label">Case No:</div>
+                    <div class="case-detail-value">${caseData.caseNo}</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">Case Year:</div>
+                    <div class="case-detail-value">${caseData.caseYear || 'N/A'}</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">Party Name:</div>
+                    <div class="case-detail-value">${caseData.partyName}</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">FIR No:</div>
+                    <div class="case-detail-value">${caseData.firNo}</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">Police Station:</div>
+                    <div class="case-detail-value">${caseData.policeStation}</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">Section Charged:</div>
+                    <div class="case-detail-value">${caseData.sectionCharged}</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">Section Framed:</div>
+                    <div class="case-detail-value">${caseData.sectionFramed}</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">Max Punishment:</div>
+                    <div class="case-detail-value">${caseData.maxPunishment} years</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">NDPS Case:</div>
+                    <div class="case-detail-value">${caseData.isNDPS}</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">Total Witnesses:</div>
+                    <div class="case-detail-value">${caseData.totalWitnesses}</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">Witnesses Examined:</div>
+                    <div class="case-detail-value">${caseData.witnessesExamined}</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">Stage:</div>
+                    <div class="case-detail-value">${caseData.stage}</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">Next Date:</div>
+                    <div class="case-detail-value">${formatDate(caseData.nextDate)}</div>
+                </div>
+                <div class="case-detail-row">
+                    <div class="case-detail-label">Other Details:</div>
+                    <div class="case-detail-value">${caseData.otherDetails}</div>
+                </div>
+            `;
+        }
+
+        function displayCommentThread(comments) {
+            const container = document.getElementById('caseCommentsThread');
+            
+            if (!comments.length) {
+                container.innerHTML = '<p style="color: #6b7280;">No comments yet</p>';
+                return;
+            }
+            
+            container.innerHTML = comments.map(comment => `
+                <div class="comment-thread">
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <strong>${comment.commentBy} (${comment.commentByRole})</strong>
+                            <span>${formatDate(comment.date)}</span>
+                        </div>
+                        <div class="comment-text">${comment.text}</div>
+                    </div>
+                    ${comment.replyText ? `
+                        <div class="reply-item">
+                            <div class="comment-header">
+                                <strong>${comment.replyBy} - Reply</strong>
+                                <span>${formatDate(comment.replyDate)}</span>
+                            </div>
+                            <div class="comment-text">${comment.replyText}</div>
+                            <span class="status-badge status-replied">Replied</span>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        async function handleAddComment(e) {
+            e.preventDefault();
+            
+            const caseId = document.getElementById('modalCaseId').value;
+            const commentText = document.getElementById('modalCommentText').value;
+            
+            try {
+                // Check if this is a reply to an existing comment or a new comment
+                if (['AD', 'DD', 'DOP'].includes(currentUser.role)) {
+                    // Monitoring authority adding comment
+                    const result = await callAPI('addComment', {
+                        caseId,
+                        commentBy: currentUser.name,
+                        commentByRole: currentUser.role,
+                        commentTo: '',
+                        text: commentText
+                    });
+                    
+                    if (result.success) {
+                        showAlert('Comment added successfully');
+                        document.getElementById('modalCommentText').value = '';
+                        viewCaseWithComments(caseId);
+                    }
+                } else {
+                    // APP/Additional PP adding reply - find the last pending comment
+                    const commentsResult = await callAPI('getCaseComments', { caseId });
+                    const pendingComment = commentsResult.comments.find(c => c.complianceStatus === 'Pending');
+                    
+                    if (pendingComment) {
+                        const result = await callAPI('addReply', {
+                            commentId: pendingComment.commentId,
+                            replyText: commentText,
+                            replyBy: currentUser.name
+                        });
+                        
+                        if (result.success) {
+                            showAlert('Reply added successfully');
+                            document.getElementById('modalCommentText').value = '';
+                            viewCaseWithComments(caseId);
+                        }
+                    }
+                }
+            } catch (error) {
+                showAlert('Failed to add comment/reply');
+            }
+        }
+
+        function closeViewCaseModal() {
+            document.getElementById('viewCaseModal').classList.remove('active');
+            document.getElementById('modalCommentText').value = '';
+        }
+
+        // Show Cases by Status
+        async function showCasesByStatus(status) {
+            try {
+                const result = await callAPI('getCasesByStatus', {
+                    userId: currentUser.userId,
+                    role: currentUser.role,
+                    region: currentUser.region,
+                    status: status
+                });
+                
+                if (result.success) {
+                    const modal = document.getElementById('casesByStatusModal');
+                    const title = document.getElementById('casesByStatusTitle');
+                    const tbody = document.querySelector('#casesByStatusTable tbody');
+                    
+                    title.textContent = status === 'all' ? 'All Cases' : `${status} Cases`;
+                    
+                    tbody.innerHTML = result.cases.map(c => `
+                        <tr>
+                            <td>${c.caseNo}</td>
+                            <td>${c.caseYear || 'N/A'}</td>
+                            <td>${c.partyName}</td>
+                            <td>${c.stage}</td>
+                            <td><span class="status-badge status-${c.status ? c.status.toLowerCase() : 'pending'}">${c.status || 'Pending'}</span></td>
+                            <td>
+                                <button class="btn btn-small btn-primary" onclick="viewCaseWithComments('${c.caseId}')">View</button>
+                            </td>
+                        </tr>
+                    `).join('');
+                    
+                    modal.classList.add('active');
+                }
+            } catch (error) {
+                showAlert('Failed to load cases');
+            }
+        }
+
+        function closeCasesByStatusModal() {
+            document.getElementById('casesByStatusModal').classList.remove('active');
+        }
+
+        function closeChangePasswordModal() {
+            document.getElementById('changePasswordModal').classList.remove('active');
+        }
+
+        // Case Management (continued in next part...)
         async function searchExistingCase() {
             const caseNo = document.getElementById('searchCaseNo').value.trim();
             
@@ -1394,15 +1780,21 @@
             const container = document.getElementById('monitoringComments');
             
             container.innerHTML = comments.map(comment => `
-                <div class="comment-item">
-                    <div class="comment-header">
-                        <strong>${comment.commentBy}</strong>
-                        <span>${formatDate(comment.date)}</span>
+                <div class="comment-thread">
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <strong>${comment.commentBy}</strong>
+                            <span>${formatDate(comment.date)}</span>
+                        </div>
+                        <div class="comment-text">${comment.text}</div>
                     </div>
-                    <div class="comment-text">${comment.text}</div>
-                    ${comment.compliance ? `
-                        <div style="margin-top: 10px; padding: 10px; background: #f0f9ff;">
-                            <strong>Compliance:</strong> ${comment.compliance}
+                    ${comment.replyText ? `
+                        <div class="reply-item">
+                            <div class="comment-header">
+                                <strong>${comment.replyBy} - Reply</strong>
+                                <span>${formatDate(comment.replyDate)}</span>
+                            </div>
+                            <div class="comment-text">${comment.replyText}</div>
                         </div>
                     ` : ''}
                 </div>
@@ -1475,13 +1867,14 @@
             const tbody = document.querySelector('#myCasesTable tbody');
             
             if (!cases.length) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No cases found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No cases found</td></tr>';
                 return;
             }
             
             tbody.innerHTML = cases.map(c => `
                 <tr>
                     <td>${c.caseNo}</td>
+                    <td>${c.caseYear || 'N/A'}</td>
                     <td>${c.partyName}</td>
                     <td>${c.stage}</td>
                     <td>${formatDate(c.nextDate)}</td>
@@ -1522,54 +1915,25 @@
             const tbody = document.querySelector('#monitoringTable tbody');
             
             if (!cases.length) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No cases to monitor</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No cases to monitor</td></tr>';
                 return;
             }
             
             tbody.innerHTML = cases.map(c => `
                 <tr>
                     <td>${c.caseNo}</td>
+                    <td>${c.caseYear || 'N/A'}</td>
+                    <td>${c.partyName}</td>
                     <td>${c.officerName}</td>
                     <td>${c.district}</td>
-                    <td>${c.punishmentYears || c.maxPunishment}</td>
+                    <td>${c.maxPunishment}</td>
                     <td>${c.stage}</td>
-                    <td>${formatDate(c.nextDate)}</td>
                     <td>
-                        <button class="btn btn-small btn-primary" onclick="addComment('${c.caseId}')">Comment</button>
+                        <button class="btn btn-small btn-primary" onclick="viewCaseWithComments('${c.caseId}')">View & Comment</button>
                         ${c.status !== 'Closed' ? `<button class="btn btn-small btn-success" onclick="closeCase('${c.caseId}')">Close</button>` : ''}
                     </td>
                 </tr>
             `).join('');
-        }
-
-        function addComment(caseId) {
-            document.getElementById('commentCaseId').value = caseId;
-            document.getElementById('commentModal').classList.add('active');
-        }
-
-        async function handleCommentSubmit(e) {
-            e.preventDefault();
-            
-            const caseId = document.getElementById('commentCaseId').value;
-            const commentText = document.getElementById('commentText').value;
-            
-            try {
-                const result = await callAPI('addComment', {
-                    caseId,
-                    commentBy: currentUser.name,
-                    commentByRole: currentUser.role,
-                    text: commentText
-                });
-                
-                if (result.success) {
-                    showAlert('Comment added successfully');
-                    document.getElementById('commentModal').classList.remove('active');
-                    document.getElementById('commentForm').reset();
-                    loadMonitoringCases();
-                }
-            } catch (error) {
-                showAlert('Failed to add comment');
-            }
         }
 
         async function closeCase(caseId) {
@@ -1616,7 +1980,7 @@
                     <td>${u.name}</td>
                     <td>${u.email}</td>
                     <td>${u.role}</td>
-                    <td>${u.district}</td>
+                    <td>${u.district || 'N/A'}</td>
                     <td>${u.region}</td>
                     <td>
                         <button class="btn btn-small btn-secondary" onclick="showAlert('Edit user feature')">Edit</button>
